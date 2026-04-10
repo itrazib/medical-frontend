@@ -1,0 +1,197 @@
+import React, { useState, useEffect } from "react";
+import {
+  FaUserCircle,
+  FaPhoneAlt,
+  FaBirthdayCake,
+  FaEnvelope,
+  FaUniversity,
+  FaBuilding,
+  FaUserTag,
+  FaTint,
+  FaIdBadge,
+} from "react-icons/fa";
+import axios from "axios";
+import { InfoField } from "../components/InfoField";
+import useAuth from "../Hooks/UseAuth";
+
+const ProfilePage = () => {
+  const { user: currentUser } = useAuth();
+  const [userInfo, setUserInfo] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        console.log("inside frontend");
+        const { data } = await axios.get(`${backendURL}/api/profile/${currentUser.id}`);
+        console.log(data);
+        if (data.success) {
+          setUserInfo(data.user);
+          if (data.user.photo) setProfileImage(data.user.photo);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (currentUser && currentUser.id) {
+      fetchProfile();
+    }
+  }, [currentUser]);
+
+  const capitalizeFirst = (str) =>
+    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+  if (!userInfo)
+    return (
+      <div className="text-center mt-20 text-gray-500">Loading profile...</div>
+    );
+  const dateOfBirth = new Date(userInfo.dob);
+  const formattedDate =
+    dateOfBirth instanceof Date && !isNaN(dateOfBirth)
+      ? dateOfBirth.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "Invalid Date";
+  return (
+    <div className="flex justify-center items-start min-h-screen bg-[#f0fdfa] py-10 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-2xl relative">
+        {/* Profile Image */}
+        <div className="relative flex justify-center mb-6">
+          {profileImage ? (
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover"
+            />
+          ) : (
+            <FaUserCircle className="text-teal-600 text-7xl" />
+          )}
+        </div>
+
+        {/* Name & Role */}
+        <h2 className="text-3xl font-bold text-center mb-1 text-gray-800">
+          {userInfo.name}
+        </h2>
+        <p className="text-center text-sm text-gray-500 capitalize mb-6">
+          {userInfo.role}
+        </p>
+
+        {/* Info Fields */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+          <InfoField
+            icon={<FaIdBadge />}
+            label="Unique ID"
+            value={userInfo.uniqueId.toUpperCase()}
+          />
+          <InfoField
+            icon={<FaIdBadge />}
+            label="Category"
+            value={capitalizeFirst(userInfo.userType)}
+          />
+          <InfoField
+            icon={<FaBirthdayCake />}
+            label="Date of Birth"
+            value={formattedDate}
+          />
+          <InfoField
+            icon={<FaTint />}
+            label="Blood Group"
+            value={userInfo.bloodGroup}
+          />
+
+          {userInfo.userType === "student" && (
+            <>
+              <InfoField
+                icon={<FaUniversity />}
+                label="Department"
+                value={userInfo.department}
+              />
+              <InfoField
+                icon={<FaBuilding />}
+                label="Hall"
+                value={userInfo.hall}
+              />
+              <InfoField
+                icon={<FaUserTag />}
+                label="Session"
+                value={userInfo.session}
+              />
+              <InfoField
+                icon={<FaUniversity />}
+                label="Program"
+                value={capitalizeFirst(userInfo.program)}
+              />
+            </>
+          )}
+
+          {userInfo.userType === "teacher" && (
+            <>
+              <InfoField
+                icon={<FaUniversity />}
+                label="Department"
+                value={userInfo.department || "Not Provided"}
+              />
+              {user.designation && (
+                <InfoField
+                  icon={<FaUserTag />}
+                  label="Designation"
+                  value={userInfo.designation}
+                />
+              )}
+              <InfoField
+                icon={<FaUserTag />}
+                label="Secondary Title"
+                value={userInfo.designation_2 || "Not Provided"}
+              />
+            </>
+          )}
+
+          {userInfo.userType === "staff" && (
+            <>
+              <InfoField
+                icon={<FaBuilding />}
+                label="Office"
+                value={userInfo.office || "N/A"}
+              />
+              {userInfo.designation && (
+                <InfoField
+                  icon={<FaUserTag />}
+                  label="Designation"
+                  value={userInfo.designation || "N/A"}
+                />
+              )}
+              <InfoField
+                icon={<FaUserTag />}
+                label="Secondary Title"
+                value={userInfo.designation_2 || "N/A"}
+              />
+            </>
+          )}
+
+          {/* Contact Info */}
+          <InfoField
+            icon={<FaPhoneAlt />}
+            label="Phone"
+            value={userInfo.phone}
+          />
+          <InfoField
+            icon={<FaEnvelope />}
+            label="Email"
+            value={
+              Array.isArray(userInfo.emails)
+                ? userInfo.emails.join(", ")
+                : userInfo.emails
+            }
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfilePage;
