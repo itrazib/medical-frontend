@@ -3,10 +3,14 @@ import AsyncCreatableSelect from "react-select/async-creatable";
 import axios from "axios";
 
 const MedicineEntry = ({ entry, setEntry, items, setItems }) => {
+
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
   const loadMedicineOptions = async (inputValue, callback) => {
     try {
       const { data } = await axios.get(
-        `/doctor/pres/medicines?search=${encodeURIComponent(inputValue)}`
+        `${backendURL}/doctor/pres/medicines?search=${encodeURIComponent(inputValue)}`,
+        { withCredentials: true }
+
       );
       const opts = data.map((m) => ({
         label: `${m.name} (${m.genericName})${m.dosage ? " - " + m.dosage : ""}`,

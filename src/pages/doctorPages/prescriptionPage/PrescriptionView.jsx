@@ -12,11 +12,15 @@ export default function PrescriptionView() {
   );
   const [showDispense, setShowDispense] = useState(false);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     async function fetchPrescription() {
       try {
         const { data } = await axios.get(
-          `/doctor/show-prescription/${prescriptionId}`
+          `${backendURL}/doctor/show-prescription/${prescriptionId}`,
+          { withCredentials: true }
+
         );
         setPrescription(data.prescription);
         setDispenseRecord(data.dispenseRecord);

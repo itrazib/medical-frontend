@@ -100,10 +100,12 @@ const DutyRosterOfDoctorsPage = () => {
   );
   const [selectedDay, setSelectedDay] = useState(null);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchRoster = async () => {
       try {
-        const { data } = await axios.get("/api/duty-roster-doctor");
+        const { data } = await axios.get(`${backendURL}/api/duty-roster-doctor`);
         const entries = data.dutyRosterDoctor || [];
 
         const grouped = daysOfWeek.reduce(

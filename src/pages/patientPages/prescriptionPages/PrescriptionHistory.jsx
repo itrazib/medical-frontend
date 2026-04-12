@@ -7,13 +7,15 @@ const PrescriptionHistory = () => {
   const { user: patient } = useAuth();
   const [prescriptions, setPrescriptions] = useState([]);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     const loadHistory = async () => {
       try {
         if (!patient?.id) return;
 
         const { data } = await axios.get(
-          `/patient/prescription-history/${patient.id}`,
+          `${backendURL}/patient/prescription-history/${patient.id}`,
           { withCredentials: true }
         );
 

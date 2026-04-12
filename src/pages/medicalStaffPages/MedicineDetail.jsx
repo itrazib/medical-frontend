@@ -9,10 +9,13 @@ export default function MedicineDetailPage() {
   const [medicine, setMedicine] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
 
   useEffect(() => {
     axios
-      .get(`/medical-staff/medicines/${id}`)
+      .get(`${backendURL}/medical-staff/medicines/${id}`, {
+        withCredentials: true
+      })
       .then(({ data }) => setMedicine(data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

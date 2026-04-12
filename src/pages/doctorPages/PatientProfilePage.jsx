@@ -21,16 +21,19 @@ const PatientProfilePage = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data } = await axios.get(`${backendURL}/doctor/patient-profile/${uniqueId}`);
+        const { data } = await axios.get(
+          `${backendURL}/doctor/patient-profile/${uniqueId}`,
+          { withCredentials: true },
+        );
         console.log(data);
         if (data.success) {
           setUserInfo(data.user);
-          if (data.user.photoUrl) setProfileImage(data.user.photoUrl);
+          if (data.user.photo) setProfileImage(data.user.photo);
           setLoading(false);
         }
       } catch (err) {

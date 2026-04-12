@@ -53,7 +53,7 @@ const DoctorsPage = () => {
 
               <p className="text-sm text-gray-700">MBBS</p>
               <p className="text-sm text-gray-700">
-                {doctor.designation_2}
+                {doctor.designation}
               </p>
               <p className="text-sm text-gray-700">{doctor.office}</p>
               <p className="text-sm text-gray-700">

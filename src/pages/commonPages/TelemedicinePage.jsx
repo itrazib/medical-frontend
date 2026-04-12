@@ -75,12 +75,13 @@ const TelemedicinePage = () => {
     const mappedIndex = dayMap[todayIndex];
     return daysOfWeek[mappedIndex];
   }
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
 
   useEffect(() => {
     async function fetchRoster() {
       try {
         setLoading(true);
-        const res = await axios.get("/api/telemedicine-duty");
+        const res = await axios.get(`${backendURL}/api/telemedicine-duty`);
         const duties = res.data.duties || [];
 
         const map = {};

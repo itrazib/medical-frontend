@@ -7,11 +7,13 @@ export const TelemedicineInfo = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         // Replace with your actual API endpoint for telemedicine doctors roster by date
-        const response = await axios.get("/api/telemedicine/doctors-today");
+        const response = await axios.get(`${backendURL}/api/telemedicine/doctors-today`);
         console.log(response);
         setDoctors(response.data.doctors || []);
       } catch (error) {

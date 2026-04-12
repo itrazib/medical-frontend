@@ -9,11 +9,15 @@ const DoctorPrescriptionHistory = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchMyPrescriptions = async () => {
       try {
         const { data } = await axios.get(
-          `/doctor/my-prescriptions/${doctor.id}`
+          `${backendURL}/doctor/my-prescriptions/${doctor.id}`,
+          { withCredentials: true }
+
         );
         if (data.success) {
           setPrescriptions(data.prescriptions);

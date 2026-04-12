@@ -3,10 +3,14 @@ import AsyncCreatableSelect from "react-select/async-creatable";
 import axios from "axios";
 
 export default function TestEntry({ tests, setTests }) {
+
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
   // Load matching tests from the server
   const loadOptions = async (inputValue) => {
     const response = await axios.get(
-      `/doctor/tests?search=${encodeURIComponent(inputValue)}`
+      `${backendURL}/doctor/tests?search=${encodeURIComponent(inputValue)}`,
+      { withCredentials: true }
+
     );
     return response.data.map((test) => ({ label: test.name, value: test }));
   };

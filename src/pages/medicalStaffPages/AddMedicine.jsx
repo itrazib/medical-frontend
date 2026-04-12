@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 
 export default function AddMedicine() {
   const navigate = useNavigate();
+
+
   const [form, setForm] = useState({
     name: "",
     genericName: "",
@@ -26,6 +28,8 @@ export default function AddMedicine() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +40,9 @@ export default function AddMedicine() {
           .map((s) => s.trim())
           .filter(Boolean),
       };
-      const { data } = await axios.post("/medical-staff/add-medicine", payload);
+      const { data } = await axios.post(`${backendURL}/medical-staff/add-medicine`, payload, {
+        withCredentials: true
+      });
       navigate(`/medical-staff/medicines/${data.medicine._id}`);
     } catch (err) {
       setError(err.response?.data?.error || "Failed to add medicine");

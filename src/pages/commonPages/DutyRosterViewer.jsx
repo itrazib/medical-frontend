@@ -25,20 +25,22 @@ const DutyRosterViewer = () => {
   const [roster, setRoster] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
+  // Departments
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const depRes = await axios.get("/admin/medical/departments");
+        const res = await axios.get(`${backendURL}/api/departments`, {
+          withCredentials: true,
+        });
 
-        if (Array.isArray(depRes.data)) {
-          setDepartments(depRes.data);
-        } else if (Array.isArray(depRes.data.departments)) {
-          setDepartments(depRes.data.departments);
-        } else {
-          setDepartments(defaultDepartments);
-        }
-      } catch (err) {
-        console.error("Failed to load departments:", err);
+        const data = Array.isArray(res.data)
+          ? res.data
+          : res.data?.departments || defaultDepartments;
+
+        setDepartments(data);
+      } catch {
         setDepartments(defaultDepartments);
       }
     };
@@ -46,24 +48,25 @@ const DutyRosterViewer = () => {
     fetchDepartments();
   }, []);
 
+  // Roster
   useEffect(() => {
     const fetchRoster = async () => {
       setLoading(true);
-
       try {
-        const res = await axios.get("/admin/medical/duty-roster", {
-          params: { department },
-        });
+        const res = await axios.get(
+          `${backendURL}/admin/medical/duty-roster`,
+          {
+            params: { department },
+            withCredentials: true,
+          }
+        );
 
-        if (Array.isArray(res.data)) {
-          setRoster(res.data);
-        } else if (Array.isArray(res.data.duties)) {
-          setRoster(res.data.duties);
-        } else {
-          setRoster([]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch roster:", err);
+        const data = Array.isArray(res.data)
+          ? res.data
+          : res.data?.duties || [];
+
+        setRoster(data);
+      } catch {
         setRoster([]);
       } finally {
         setLoading(false);
@@ -74,108 +77,113 @@ const DutyRosterViewer = () => {
   }, [department]);
 
   const getRosterForCell = (day, shift) => {
-    return Array.isArray(roster)
-      ? roster.filter(
-          (item) => item.day === day && item.shift === shift
-        )
-      : [];
+    return roster.filter(
+      (item) => item.day === day && item.shift === shift
+    );
   };
 
   return (
-    <div className="min-h-screen bg-white p-4 sm:p-6 lg:p-8">
-      <h1 className="text-2xl sm:text-3xl font-poetsen text-center text-teal-700 mb-6">
-        Duty Roster Viewer
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 p-6">
+      {/* HEADER */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-teal-700">
+          🏥 Duty Roster Viewer
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Manage staff schedule by department
+        </p>
+      </div>
 
+      {/* FILTER BAR */}
       <div className="flex justify-center mb-6">
-        <div className="flex items-center gap-3">
-          <label htmlFor="department" className="font-semibold text-gray-700">
-            Select Department:
+        <div className="bg-white shadow-md rounded-xl p-3 flex items-center gap-4">
+          <label className="font-medium text-gray-700">
+            Department:
           </label>
 
           <select
-            id="department"
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            className="border px-4 py-2 rounded-lg focus:ring-2 focus:ring-teal-400"
           >
-            {(Array.isArray(departments)
-              ? departments
-              : defaultDepartments
-            ).map((dep) => (
+            {departments.map((dep) => (
               <option key={dep} value={dep}>
-                {typeof dep === "string"
-                  ? dep.charAt(0).toUpperCase() + dep.slice(1)
-                  : ""}
+                {dep}
               </option>
             ))}
           </select>
         </div>
       </div>
 
+      {/* TABLE */}
       {loading ? (
-        <div className="text-center text-gray-500">Loading roster...</div>
+        <div className="text-center text-gray-500">
+          Loading roster...
+        </div>
       ) : (
         <div className="overflow-x-auto">
-          <div className="min-w-[900px] grid grid-cols-8 border border-gray-200 rounded-xl overflow-hidden shadow">
-            {/* Top Left Empty Cell */}
-            <div className="bg-gray-100 p-4"></div>
+          <div className="min-w-[1000px] bg-white rounded-2xl shadow-xl overflow-hidden border">
 
-            {/* Day Headers */}
-            {days.map((day) => (
-              <div
-                key={day}
-                className="bg-teal-100 text-center font-semibold p-4 border-l border-gray-200"
-              >
-                {day}
-              </div>
-            ))}
+            {/* HEADER ROW */}
+            <div className="grid grid-cols-8 bg-teal-600 text-white font-semibold">
+              <div className="p-4">Shift / Day</div>
+              {days.map((day) => (
+                <div key={day} className="p-4 text-center">
+                  {day}
+                </div>
+              ))}
+            </div>
 
-            {/* Shift Rows */}
+            {/* SHIFT ROWS */}
             {shifts.map((shift) => (
-              <React.Fragment key={shift}>
-                {/* Shift Name */}
-                <div className="bg-teal-50 p-4 border-t border-gray-200 font-semibold text-gray-700">
+              <div
+                key={shift}
+                className="grid grid-cols-8 border-t"
+              >
+                {/* SHIFT LABEL */}
+                <div className="p-4 bg-teal-50 font-semibold text-teal-700 flex items-center">
                   {shift}
                 </div>
 
-                {/* Day Cells */}
+                {/* DAYS */}
                 {days.map((day) => {
-                  const cellItems = getRosterForCell(day, shift);
+                  const items = getRosterForCell(day, shift);
 
                   return (
                     <div
                       key={`${day}-${shift}`}
-                      className="min-h-[120px] border-t border-l border-gray-200 p-2 bg-white"
+                      className="p-2 border-l min-h-[130px] bg-gray-50 hover:bg-gray-100 transition"
                     >
-                      {cellItems.length === 0 ? (
-                        <p className="text-xs text-gray-400 italic">
-                          No duty assigned
-                        </p>
+                      {items.length === 0 ? (
+                        <div className="text-xs text-gray-400 italic">
+                          No duty
+                        </div>
                       ) : (
-                        cellItems.map((item) => (
+                        items.map((item) => (
                           <div
                             key={item._id}
-                            className="bg-teal-50 border border-teal-100 rounded-lg p-2 mb-2"
+                            className="bg-white border rounded-lg p-2 mb-2 shadow-sm hover:shadow-md transition"
                           >
-                            <p className="font-medium text-sm text-gray-800">
-                              {item.staff?.name || "Unknown"}
-                            </p>
+                            <div className="text-sm font-semibold text-gray-800">
+                              👤 {item.staff?.name || "Unknown"}
+                            </div>
 
-                            <p className="text-xs text-gray-600">
+                            <div className="text-xs text-gray-500">
                               {item.staff?.designation || "Staff"}
-                            </p>
+                            </div>
 
-                            <p className="text-xs text-gray-500 mt-1">
-                              {item.startTime} - {item.endTime}
-                            </p>
+                            <div className="mt-1 text-xs">
+                              <span className="bg-teal-100 text-teal-700 px-2 py-1 rounded">
+                                ⏰ {item.startTime} - {item.endTime}
+                              </span>
+                            </div>
                           </div>
                         ))
                       )}
                     </div>
                   );
                 })}
-              </React.Fragment>
+              </div>
             ))}
           </div>
         </div>

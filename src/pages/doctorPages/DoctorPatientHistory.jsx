@@ -9,10 +9,14 @@ const DoctorPatientHistory = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const { data } = await axios.get(`/doctor/patient-history/${uniqueId}`);
+        const { data } = await axios.get(`${backendURL}/doctor/patient-history/${uniqueId}`, {
+          withCredentials: true,
+        });
         console.log(data);
         if (data.success) setHistory(data.prescriptions);
       } catch (err) {

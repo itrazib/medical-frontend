@@ -3,10 +3,16 @@ import axios from "axios";
 import AsyncCreatableSelect from "react-select/async-creatable";
 
 const DiagnosisSelect = ({ diagnoses, setDiagnoses }) => {
+
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
   // Load from server
   const loadDiagnosisOptions = async (inputValue, callback) => {
     try {
-      const res = await axios.get(`/doctor/diagnoses?search=${encodeURIComponent(inputValue)}`);
+      const res = await axios.get(`${backendURL}/doctor/diagnoses?search=${encodeURIComponent(inputValue)}`, {
+        withCredentials: true,
+      });
+
+      console.log("Fetched diagnoses:", res.data);
       const opts = res.data.map((d) => ({
         label: d.displayName,
         value: d,
@@ -21,10 +27,12 @@ const DiagnosisSelect = ({ diagnoses, setDiagnoses }) => {
   // Persist new diagnosis
   const handleCreate = async (inputValue) => {
     try {
-      const res = await axios.post("/doctor/diagnoses", {
+      const res = await axios.post(`${backendURL}/doctor/diagnoses`, {
         code: "",
         name: inputValue,
         displayName: inputValue,
+      }, {
+        withCredentials: true,
       });
       setDiagnoses((prev) => [...prev, res.data]);
     } catch (err) {

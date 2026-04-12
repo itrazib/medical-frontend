@@ -6,10 +6,12 @@ const PathologyDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        const response = await axios.get("/api/pathology-tests");
+        const response = await axios.get(`${backendURL}/api/pathology-tests`);
 
         console.log(response.data);
 

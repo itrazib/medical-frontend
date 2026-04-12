@@ -33,13 +33,17 @@ const PrescriptionForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalItems, setModalItems] = useState([]);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchPatientProfile = async () => {
       try {
         const { data } = await axios.get(
-          `/doctor/pres/patient-profile/${uniqueId}`
+          `${backendURL}/doctor/pres/patient-profile/${uniqueId}`,
+          { withCredentials: true }
         );
         setPatient(data.patient);
+        console.log("Fetched patient profile:", data.patient);
       } catch (err) {
         console.log(err);
       }
@@ -82,7 +86,9 @@ const PrescriptionForm = () => {
     };
 
     try {
-      const { data } = await axios.post("/doctor/create-prescription", payload);
+      const { data } = await axios.post(`${backendURL}/doctor/create-prescription`, payload, {
+        withCredentials: true,
+      });
       const { prescription, dispenseRecord } = data;
       if (prescription && prescription._id) {
         navigate(`/show-prescription/${prescription._id}`, {

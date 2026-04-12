@@ -6,10 +6,12 @@ export const AmbulanceInfo = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+
   useEffect(() => {
     const fetchDrivers = async () => {
       try {
-        const res = await axios.get("/api/ambulance/current-driver");
+        const res = await axios.get(`${backendURL}/api/ambulance/current-driver`);
 
         console.log(res.data);
 
@@ -62,7 +64,7 @@ export const AmbulanceInfo = () => {
       <ul className="list-disc list-inside">
         {drivers.map((d) => (
           <li key={d._id}>
-            <strong>{d.name}</strong> – {d.mobile}
+            <strong>{d.name}</strong> – {d.phone}
           </li>
         ))}
       </ul>
