@@ -5,6 +5,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LoginPage from "../src/pages/authPages/LoginPage";
 import useAuth from "./Hooks/UseAuth";
+import FloatingAI from "./pages/commonPages/servicePages.jsx/FloatingAI";
+import RealtimeChat from "./pages/commonPages/servicePages.jsx/WhatsAppChat";
 
 const Layout = () => {
   const { ready, user } = useAuth();
@@ -72,6 +74,8 @@ const Layout = () => {
       {/* Page content */}
       <main className="flex-grow">
         <Outlet />
+        <FloatingAI />
+        <RealtimeChat />
       </main>
 
       <Footer />
