@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import api from '../utils/api';
 import axios from 'axios';
 
 const AuthProvider = ({children}) => {

@@ -39,7 +39,7 @@ export default function FloatingAi() {
     } catch (err) {
       setChat((prev) => [
         ...prev,
-        { sender: "ai", text: "❌ Server error" },
+        { sender: "ai", text: "❌ Server error", err },
       ]);
     }
 
