@@ -1,5 +1,5 @@
 // BookingPage.jsx
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import PatientInfoCard from "./component/PatientInfoCard";
@@ -7,7 +7,7 @@ import BookingForm from "./component/BookingForm";
 import TimeSlotTable from "./component/TimeSlotTable";
 import ErrorModal from "./component/ErrorModal";
 import { useNavigate } from "react-router";
-import useAuth from "../../Hooks/UseAuth";
+import useAuth from "../../hooks/UseAuth";
 
 const BookingPage = () => {
   const { user } = useAuth();
@@ -26,7 +26,7 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
   // Fetch slots when date or doctor changes
   useEffect(() => {
     // if no date, or (if not doctor and no doctor selected) → bail
@@ -36,7 +36,9 @@ const BookingPage = () => {
     const doctorId = isDoctor ? user.id : selectedDoctor;
 
     axios
-      .get(`${backendURL}/booking/slots?doctor=${doctorId}&date=${selectedDate}`)
+      .get(
+        `${backendURL}/booking/slots?doctor=${doctorId}&date=${selectedDate}`,
+      )
       .then((res) => {
         if (res.data.message) {
           setDayOffMessage(res.data.message);
@@ -65,7 +67,7 @@ const BookingPage = () => {
       })
       .then((res) => {
         setSlots((prev) =>
-          prev.map((s) => (s._id === slotId ? res.data.slot : s))
+          prev.map((s) => (s._id === slotId ? res.data.slot : s)),
         );
         // Clear any previous errors on successful booking
         setErrorMessage("");
@@ -83,7 +85,7 @@ const BookingPage = () => {
       .post(`${backendURL}/booking/cancel/${slotId}`, { patientId: user.id })
       .then((res) => {
         setSlots((prev) =>
-          prev.map((s) => (s._id === slotId ? res.data.slot : s))
+          prev.map((s) => (s._id === slotId ? res.data.slot : s)),
         );
         setErrorMessage("");
       })
@@ -100,8 +102,8 @@ const BookingPage = () => {
       .post(`${backendURL}/booking/unavailable/${slotId}`)
       .then((res) =>
         setSlots((prev) =>
-          prev.map((s) => (s._id === slotId ? res.data.slot : s))
-        )
+          prev.map((s) => (s._id === slotId ? res.data.slot : s)),
+        ),
       )
       .catch((err) => {
         const msg = err.response?.data?.message || err.message;
@@ -125,7 +127,7 @@ const BookingPage = () => {
       .post(`/booking/mark-seen/${slotId}`)
       .then((res) => {
         setSlots((prev) =>
-          prev.map((s) => (s._id === slotId ? res.data.slot : s))
+          prev.map((s) => (s._id === slotId ? res.data.slot : s)),
         );
       })
       .catch((err) => {

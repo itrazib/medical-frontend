@@ -2,22 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PrescriptionCard from "../../components/PrescriptionCard";
 
-import useAuth from "../../Hooks/UseAuth";
+import useAuth from "../../hooks/UseAuth";
 
 const DoctorPrescriptionHistory = () => {
   const { user: doctor } = useAuth();
   const [prescriptions, setPrescriptions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchMyPrescriptions = async () => {
       try {
         const { data } = await axios.get(
           `${backendURL}/doctor/my-prescriptions/${doctor.id}`,
-          { withCredentials: true }
-
+          { withCredentials: true },
         );
         if (data.success) {
           setPrescriptions(data.prescriptions);

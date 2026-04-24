@@ -5,7 +5,7 @@ import { roleMenus } from "./constants";
 import RoleMenu from "./components/RoleMenu";
 import axios from "axios";
 import logo from "../src/assets/mbstu_logo.png";
-import useAuth from "./Hooks/UseAuth";
+import useAuth from "./hooks/UseAuth";
 
 const Header = () => {
   const { user, setUser } = useAuth();
@@ -64,7 +64,7 @@ const Header = () => {
   };
 
   const isLoggedIn = user?.role;
-  console.log(user)
+  console.log(user);
 
   return (
     <div className="relative shadow-md bg-white z-50">

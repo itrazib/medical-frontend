@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PrescriptionCard from "../../../components/PrescriptionCard";
-import useAuth from "../../../Hooks/UseAuth";
+import useAuth from "../../../hooks/UseAuth";
 
 const PrescriptionHistory = () => {
   const { user: patient } = useAuth();
@@ -16,7 +16,7 @@ const PrescriptionHistory = () => {
 
         const { data } = await axios.get(
           `${backendURL}/patient/prescription-history/${patient.id}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         // ✅ SAFE ARRAY HANDLING
@@ -44,15 +44,10 @@ const PrescriptionHistory = () => {
         <div className="flex flex-col items-center gap-6">
           {(prescriptions || []).length > 0 ? (
             (prescriptions || []).map((p) => (
-              <PrescriptionCard
-                key={p._id}
-                prescription={p}
-              />
+              <PrescriptionCard key={p._id} prescription={p} />
             ))
           ) : (
-            <p className="text-center text-gray-600">
-              No prescriptions found
-            </p>
+            <p className="text-center text-gray-600">No prescriptions found</p>
           )}
         </div>
       </div>

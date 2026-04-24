@@ -12,20 +12,22 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { InfoField } from "../components/InfoField";
-import useAuth from "../Hooks/UseAuth";
+import useAuth from "../hooks/UseAuth";
 
 const ProfilePage = () => {
   const { user: currentUser } = useAuth();
   const [userInfo, setUserInfo] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
 
-  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         console.log("inside frontend");
-        const { data } = await axios.get(`${backendURL}/api/profile/${currentUser.id}`);
+        const { data } = await axios.get(
+          `${backendURL}/api/profile/${currentUser.id}`,
+        );
         console.log(data);
         if (data.success) {
           setUserInfo(data.user);

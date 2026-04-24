@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DiagnosisSelect from "./components/DiagnosisSelect";
 import MedicineEntry from "./components/MedicineEntry";
 import MedicineList from "./components/MedicineList";
@@ -6,7 +6,7 @@ import TestEntry from "./components/TestEntry";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import InternalQtyModal from "./components/InternalQtyModal";
-import useAuth from "../../../Hooks/UseAuth";
+import useAuth from "../../../hooks/UseAuth";
 
 const PrescriptionForm = () => {
   const { uniqueId } = useParams();
@@ -33,14 +33,14 @@ const PrescriptionForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalItems, setModalItems] = useState([]);
 
-  const backendURL = import.meta.env.VITE_API_BASE_URL ;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchPatientProfile = async () => {
       try {
         const { data } = await axios.get(
           `${backendURL}/doctor/pres/patient-profile/${uniqueId}`,
-          { withCredentials: true }
+          { withCredentials: true },
         );
         setPatient(data.patient);
         console.log("Fetched patient profile:", data.patient);
@@ -86,9 +86,13 @@ const PrescriptionForm = () => {
     };
 
     try {
-      const { data } = await axios.post(`${backendURL}/doctor/create-prescription`, payload, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${backendURL}/doctor/create-prescription`,
+        payload,
+        {
+          withCredentials: true,
+        },
+      );
       const { prescription, dispenseRecord } = data;
       if (prescription && prescription._id) {
         navigate(`/show-prescription/${prescription._id}`, {

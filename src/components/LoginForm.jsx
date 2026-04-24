@@ -1,19 +1,19 @@
 // === src/components/LoginForm.jsx ===
-import {  useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
-import useAuth from "../Hooks/UseAuth";
+import useAuth from "../hooks/UseAuth";
 import api from "../utils/api";
 
 const LoginForm = () => {
   const [uniqueId, setUniqueId] = useState("");
   const [password, setPassword] = useState("");
- 
+
   const [error, setError] = useState(null);
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
- const backendURL = import.meta.env.VITE_API_BASE_URL;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
   async function loginUser(ev) {
     ev.preventDefault();
     if (!uniqueId.trim() || !password) {
@@ -23,7 +23,8 @@ const LoginForm = () => {
     try {
       const { data } = await api.post(
         "/login",
-        { uniqueId, password },{ timeout: 5000  },
+        { uniqueId, password },
+        { timeout: 5000 },
       );
       setUser(data.user);
       console.log("Login successful:", data);

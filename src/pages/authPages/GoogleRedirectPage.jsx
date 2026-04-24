@@ -1,9 +1,8 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import useAuth from "../../Hooks/useAuth";
+import useAuth from "../../hooks/UseAuth";
 // import useAuth from "../../Hooks/UseAuth";
-
 
 const GoogleRedirect = () => {
   const { setUser } = useAuth();

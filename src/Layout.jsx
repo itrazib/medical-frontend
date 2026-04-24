@@ -4,8 +4,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import Header from "./Header";
 import Footer from "./Footer";
 import LoginPage from "../src/pages/authPages/LoginPage";
-import useAuth from "./Hooks/UseAuth";
 import FloatingAI from "./pages/commonPages/servicePages.jsx/FloatingAI";
+import useAuth from "./hooks/UseAuth";
 // import RealtimeChat from "./pages/commonPages/servicePages.jsx/WhatsAppChat";
 
 const Layout = () => {
