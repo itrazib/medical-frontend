@@ -1,17 +1,19 @@
 import { useEffect} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-
 import useAuth from "../../Hooks/UseAuth";
+
 
 const GoogleRedirect = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     // Get the logged-in user from backend session
     axios
-      .get("/api/whoami", { withCredentials: true })
+      .get(`${backendURL}/api/whoami`, { withCredentials: true })
       .then((res) => {
         setUser(res.data);
 
