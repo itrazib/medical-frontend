@@ -7,10 +7,11 @@ const AuthProvider = ({children}) => {
 
     const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     if (!user) {
       axios
-        .get("http://localhost:5000/api/whoami", { withCredentials: true })
+        .get(`${backendURL}/api/whoami`, { withCredentials: true })
         .then(({ data }) => {
           console.log(data);
           setUser(data);

@@ -8,7 +8,7 @@ export default function FloatingAi() {
   const [loading, setLoading] = useState(false);
 
   const backendUrl =
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+    import.meta.env.VITE_API_BASE_URL || "https://medical-backend-api-3d8q.onrender.com";
 
   const chatEndRef = useRef(null);
 

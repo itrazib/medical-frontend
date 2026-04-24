@@ -26,6 +26,8 @@ const AddMember = () => {
   const [successMessage, setSuccessMessage] = useState(""); // To store success message
   const [errorMessage, setErrorMessage] = useState("");
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
   // Handle the change in user type to show/hide fields accordingly
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
@@ -49,10 +51,10 @@ const AddMember = () => {
     }
 
     try {
-      const response = await axios.post("/admin/university/add-member", form, {
+      const response = await axios.post(`${backendURL}/admin/university/add-member`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
-        },
+        },       withCredentials: true,
       });
       console.log(response.data);
       // On success, show a success message

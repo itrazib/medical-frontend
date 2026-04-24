@@ -2,7 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.DEV
-    ? "http://localhost:5000/auth"
+    ? "https://medical-backend-api-3d8q.onrender.com/auth"
     : `${import.meta.env.VITE_API_BASE_URL}/auth`,
   withCredentials: true,  // ✅ add this
 });
