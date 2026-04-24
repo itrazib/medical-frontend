@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
-import Layout from "./Layout";
+import Layout from "./layout/Layout";
 import IndexPage from "./pages/IndexPage";
 import ServicePage from "./pages/commonPages/servicePages.jsx/ServicePage";
 import DoctorsPage from "./pages/commonPages/DoctorsPage";
@@ -13,8 +13,8 @@ import LoginPage from "./pages/authPages/LoginPage"; // ✅ ADD
 import ProfilePage from "./pages/ProfilePage";
 import SetPasswordPage from "./pages/authPages/SetPasswordPage";
 import AvailableMedicine from "./pages/AvailableMedicine";
-import PrivateRoute from "./PrivateRoute";
-import AccessDenied from "./AccessDeniedPage";
+import PrivateRoute from "./Router/PrivateRoute";
+import AccessDenied from "./components/AccessDeniedPage";
 import AboutPage from "./pages/commonPages/AboutPage";
 import GoogleRedirect from "./pages/authPages/GoogleRedirectPage";
 import SetPasswordGoogle from "./pages/authPages/SetPasswordGoogle";
@@ -86,7 +86,10 @@ export const router = createBrowserRouter([
       // MEDICINE
       { path: "available-medicine", element: <AvailableMedicine /> },
       { path: "doctor/available-medicine", element: <MedicineView /> },
-      { path: "medical-staff/manage-medicine", element: <ManageMedicinePage /> },
+      {
+        path: "medical-staff/manage-medicine",
+        element: <ManageMedicinePage />,
+      },
       {
         path: "medical-staff/medicine-out-of-stock",
         element: <MedicineOutOfStockPage />,
@@ -95,27 +98,51 @@ export const router = createBrowserRouter([
         path: "medical-staff/pending-medicine-requests",
         element: <DispenseMedicine />,
       },
-      { path: "medical-staff/medicines/:id", element: <StaffMedicineDetailPage /> },
+      {
+        path: "medical-staff/medicines/:id",
+        element: <StaffMedicineDetailPage />,
+      },
       { path: "doctor/medicines/:id", element: <DoctorMedicineDetailPage /> },
       { path: "medicines/:id/edit", element: <EditMedicinePage /> },
       { path: "medical-staff/add-medicine", element: <AddMedicine /> },
-      { path: "medical-staff/dispense-report", element: <MonthlyDispenseReport /> },
+      {
+        path: "medical-staff/dispense-report",
+        element: <MonthlyDispenseReport />,
+      },
 
       // DOCTOR
       { path: "search-medicine", element: <SearchMedicinesPage /> },
       { path: "search-medicine/:medicineId", element: <SearchMedicinesPage /> },
       { path: "write-prescription/:uniqueId", element: <PrescriptionForm /> },
-      { path: "show-prescription/:prescriptionId", element: <PrescriptionView /> },
-      { path: "doctor/patient-history/:uniqueId", element: <DoctorPatientHistory /> },
-      { path: "doctor/prescription-history", element: <DoctorPrescriptionHistory /> },
+      {
+        path: "show-prescription/:prescriptionId",
+        element: <PrescriptionView />,
+      },
+      {
+        path: "doctor/patient-history/:uniqueId",
+        element: <DoctorPatientHistory />,
+      },
+      {
+        path: "doctor/prescription-history",
+        element: <DoctorPrescriptionHistory />,
+      },
 
       // PATIENT
       { path: "patient/medical-history", element: <PrescriptionHistory /> },
 
       // ADMIN
-      { path: "medical-admin/manage-medical-staff", element: <ManageStaffDutyRoster /> },
-      { path: "medical-admin/telemedicine-duty", element: <TelemedicineDuty /> },
-      { path: "medical-admin/set-driver", element: <AmbulanceAssignmentPage /> },
+      {
+        path: "medical-admin/manage-medical-staff",
+        element: <ManageStaffDutyRoster />,
+      },
+      {
+        path: "medical-admin/telemedicine-duty",
+        element: <TelemedicineDuty />,
+      },
+      {
+        path: "medical-admin/set-driver",
+        element: <AmbulanceAssignmentPage />,
+      },
 
       // OTHER
       { path: "telemedicine", element: <TelemedicinePage /> },

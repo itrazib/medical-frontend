@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { Menu, UserIcon } from "lucide-react";
-import { roleMenus } from "./constants";
-import RoleMenu from "./components/RoleMenu";
+import { roleMenus } from "../constants";
+import RoleMenu from "../components/RoleMenu";
 import axios from "axios";
 import logo from "../src/assets/mbstu_logo.png";
-import useAuth from "./hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 const Header = () => {
   const { user, setUser } = useAuth();

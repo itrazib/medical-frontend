@@ -1,11 +1,11 @@
 // src/Layout.jsx
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
-import Header from "./Header";
-import Footer from "./Footer";
-import LoginPage from "../src/pages/authPages/LoginPage";
-import FloatingAI from "./pages/commonPages/servicePages.jsx/FloatingAI";
-import useAuth from "./hooks/useAuth";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+import LoginPage from "../pages/authPages/LoginPage";
+import FloatingAI from "../pages/commonPages/servicePages.jsx/FloatingAI";
+import useAuth from "../hooks/useAuth";
 // import RealtimeChat from "./pages/commonPages/servicePages.jsx/WhatsAppChat";
 
 const Layout = () => {

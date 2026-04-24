@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter } from "react-router";
-import Layout from "../Layout";
+import Layout from "../layout/Layout";
 import IndexPage from "../pages/IndexPage";
 import ServicePage from "../pages/commonPages/servicePages.jsx/ServicePage";
 import DoctorsPage from "../pages/commonPages/DoctorsPage";
@@ -17,7 +17,7 @@ import SetPasswordPage from "../pages/authPages/SetPasswordPage";
 import AvailableMedicine from "../pages/AvailableMedicine";
 import MedicineView from "../pages/doctorPages/MedicineView";
 import AddMember from "../pages/universityAdminPages/AddMember";
-import AccessDenied from "../AccessDeniedPage";
+import AccessDenied from "../components/AccessDeniedPage";
 import GoogleRedirect from "../pages/authPages/GoogleRedirectPage";
 import SetPasswordGoogle from "../pages/authPages/SetPasswordGoogle";
 import PatientProfilePage from "../pages/doctorPages/PatientProfilePage";
@@ -46,7 +46,7 @@ import MonthlyDispenseReport from "../pages/medicalStaffPages/MonthlyDispenseRep
 // import ProfilePage from "../pages/ProfilePage";
 // import SetPasswordPage from "../pages/authPages/SetPasswordPage";
 // import AvailableMedicine from "../pages/AvailableMedicine";
-import PrivateRoute from "../PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 // import AccessDenied from "./AccessDeniedPage";
 import AboutPage from "../pages/commonPages/AboutPage";
 // import GoogleRedirect from "./pages/authPages/GoogleRedirectPage";
@@ -81,9 +81,7 @@ import TelemedicineDuty from "../pages/medicalAdminPages/TelemedicineDuty";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-        <Layout />
-    ),
+    element: <Layout />,
     children: [
       { index: true, element: <IndexPage /> },
       { path: "services", element: <ServicePage /> },
@@ -177,6 +175,3 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
-
-
-
