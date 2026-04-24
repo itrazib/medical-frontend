@@ -6,7 +6,7 @@ import TestEntry from "./components/TestEntry";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import InternalQtyModal from "./components/InternalQtyModal";
-import useAuth from "../../../hooks/useauth";
+import useAuth from "../../../hooks/useAuth";
 
 const PrescriptionForm = () => {
   const { uniqueId } = useParams();

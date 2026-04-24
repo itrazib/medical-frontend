@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
-import useAuth from "../hooks/useauth";
+import useAuth from "../hooks/useAuth";
 import api from "../utils/api";
 
 const LoginForm = () => {

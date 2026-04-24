@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PrescriptionCard from "../../components/PrescriptionCard";
 
-import useAuth from "../../hooks/useauth";
+import useAuth from "../../hooks/useAuth";
 
 const DoctorPrescriptionHistory = () => {
   const { user: doctor } = useAuth();

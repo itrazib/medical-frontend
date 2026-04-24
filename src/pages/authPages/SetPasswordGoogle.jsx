@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import useAuth from "../../hooks/useauth";
+import useAuth from "../../hooks/useAuth";
 
 const SetPasswordGoogle = () => {
   const { user } = useAuth();

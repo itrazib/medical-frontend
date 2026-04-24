@@ -5,7 +5,7 @@ import { roleMenus } from "./constants";
 import RoleMenu from "./components/RoleMenu";
 import axios from "axios";
 import logo from "../src/assets/mbstu_logo.png";
-import useAuth from "./hooks/useauth";
+import useAuth from "./hooks/useAuth";
 
 const Header = () => {
   const { user, setUser } = useAuth();

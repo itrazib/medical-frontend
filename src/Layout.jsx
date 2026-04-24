@@ -5,7 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LoginPage from "../src/pages/authPages/LoginPage";
 import FloatingAI from "./pages/commonPages/servicePages.jsx/FloatingAI";
-import useAuth from "./hooks/useauth";
+import useAuth from "./hooks/useAuth";
 // import RealtimeChat from "./pages/commonPages/servicePages.jsx/WhatsAppChat";
 
 const Layout = () => {

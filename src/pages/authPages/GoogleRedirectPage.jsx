@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import useAuth from "../../hooks/useauth";
+import useAuth from "../../hooks/useAuth";
 // import useAuth from "../../Hooks/UseAuth";
 
 const GoogleRedirect = () => {
