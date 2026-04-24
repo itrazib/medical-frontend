@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import useAuth from "./hooks/UseAuth";
+import useAuth from "./hooks/useauth";
 
 const PrivateRoute = ({ element: Component, roles = [], ...rest }) => {
   const { user, ready } = useAuth();

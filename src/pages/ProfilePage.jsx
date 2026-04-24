@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { InfoField } from "../components/InfoField";
-import useAuth from "../hooks/UseAuth";
+import useAuth from "../hooks/useauth";
 
 const ProfilePage = () => {
   const { user: currentUser } = useAuth();

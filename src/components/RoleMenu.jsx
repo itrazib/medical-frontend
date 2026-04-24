@@ -4,7 +4,7 @@ import axios from "axios";
 import { roleMenus } from "../constants/index";
 import SearchInput from "./SearchInput";
 import SearchSuggestions from "./SearchSuggestions";
-import useAuth from "../hooks/UseAuth";
+import useAuth from "../hooks/useauth";
 
 export default function RoleMenu() {
   const { user } = useAuth();

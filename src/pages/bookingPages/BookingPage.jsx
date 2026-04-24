@@ -7,7 +7,7 @@ import BookingForm from "./component/BookingForm";
 import TimeSlotTable from "./component/TimeSlotTable";
 import ErrorModal from "./component/ErrorModal";
 import { useNavigate } from "react-router";
-import useAuth from "../../hooks/UseAuth";
+import useAuth from "../../hooks/useauth";
 
 const BookingPage = () => {
   const { user } = useAuth();
