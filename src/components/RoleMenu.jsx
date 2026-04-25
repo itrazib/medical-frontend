@@ -9,57 +9,93 @@ import useAuth from "../hooks/useAuth";
 export default function RoleMenu() {
   const { user } = useAuth();
   const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  if (!user || !user.role) return null;
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
+  if (!user?.role) return null;
+
   const menuItems = roleMenus[user.role] || [];
 
-  useEffect(() => setSelectedIndex(-1), [suggestions]);
+  // reset selected index when suggestions change
+  useEffect(() => {
+    setSelectedIndex(-1);
+  }, [suggestions]);
 
+  // search API
   useEffect(() => {
     const fetchSuggestions = async () => {
-      if (!searchTerm.trim()) return setSuggestions([]);
+      if (!searchTerm.trim()) {
+        setSuggestions([]);
+        return;
+      }
+
       try {
-        const { data } = await axios.get("/doctor/search", {
-          params: { q: searchTerm },
-        });
-        setSuggestions(data.results || []);
-      } catch {}
+        const { data } = await axios.get(
+          `${backendURL}/doctor/search`,
+          {
+            params: { q: searchTerm },
+          }
+        );
+
+        setSuggestions(data?.results || []);
+      } catch (err) {
+        console.log("Search error:", err.message);
+        setSuggestions([]);
+      }
     };
-    fetchSuggestions();
-  }, [searchTerm]);
+
+    const delayDebounce = setTimeout(fetchSuggestions, 300); // debounce
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, backendURL]);
+
+  const selectSuggestion = (item) => {
+    if (!item) return;
+
+    if (item.type === "patient") {
+      navigate(`/patient-profile/${item.uniqueId}`);
+    } else if (item.type === "medicine") {
+      navigate(`/doctor/medicines/${item._id}`);
+    }
+
+    setSearchTerm("");
+    setSuggestions([]);
+  };
 
   const handleKeyDown = (e) => {
     if (!suggestions.length) return;
+
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setSelectedIndex((i) => Math.min(i + 1, suggestions.length - 1));
     }
+
     if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex((i) => Math.max(i - 1, 0));
     }
+
     if (e.key === "Enter") {
       e.preventDefault();
+
       const item =
-        selectedIndex >= 0 ? suggestions[selectedIndex] : suggestions[0];
+        selectedIndex >= 0
+          ? suggestions[selectedIndex]
+          : suggestions[0];
+
       selectSuggestion(item);
     }
-  };
-
-  const selectSuggestion = (item) => {
-    if (item.type === "patient") navigate(`/patient-profile/${item.uniqueId}`);
-    else if (item.type === "medicine")
-      navigate(`/doctor/medicines/${item._id}`);
-    setSearchTerm("");
   };
 
   return (
     <div className="hidden lg:block bg-white shadow">
       <nav className="flex justify-between items-center overflow-visible whitespace-nowrap px-6 py-3">
-        {/* Tabs container */}
+        
+        {/* MENU */}
         <div className="flex space-x-4">
           {menuItems.map(({ name, path }) => (
             <NavLink
@@ -78,7 +114,7 @@ export default function RoleMenu() {
           ))}
         </div>
 
-        {/* Search for doctor */}
+        {/* SEARCH */}
         {user.role === "doctor" && (
           <div className="relative w-[300px] mr-4">
             <SearchInput
@@ -87,6 +123,7 @@ export default function RoleMenu() {
               onChange={setSearchTerm}
               onKeyDown={handleKeyDown}
             />
+
             {suggestions.length > 0 && (
               <SearchSuggestions
                 suggestions={suggestions}

@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router";
 import { Menu, UserIcon } from "lucide-react";
 import { roleMenus } from "../constants";
 import RoleMenu from "../components/RoleMenu";
-import axios from "axios";
+
 import logo from "../assets/mbstu_logo.png";
 import useAuth from "../hooks/useAuth";
+import api from "../utils/api";
 
 const Header = () => {
   const { user, setUser } = useAuth();
@@ -14,6 +15,8 @@ const Header = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
+
+  // const backendURL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,8 +56,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const backendURL = import.meta.env.VITE_API_BASE_URL;
-      await axios.get(`${backendURL}/auth/logout`, {
+      await api.get(`/logout`, {
         withCredentials: true,
       });
       setUser(null);

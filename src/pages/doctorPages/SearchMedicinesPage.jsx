@@ -10,12 +10,14 @@ function SearchMedicinesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const backendURL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     // Fetch medicine data using the medicineId
     const fetchMedicineData = async () => {
       try {
         console.log(medicineId);
-        const response = await axios(`/doctor/medicine/${medicineId}`);
+        const response = await axios(`${backendURL}/doctor/medicine/${medicineId}`);
         console.log(response.data);
         setMedicine(response.data);
         setLoading(false);
