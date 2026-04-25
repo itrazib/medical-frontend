@@ -54,7 +54,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       const backendURL = import.meta.env.VITE_API_BASE_URL;
-      await axios.get(`${backendURL}/auth/logout`);
+      await axios.get(`${backendURL}/logout`);
       setUser(null);
       setIsProfileMenuOpen(false);
       setIsMobileMenuOpen(false);
