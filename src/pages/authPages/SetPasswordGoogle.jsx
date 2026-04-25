@@ -15,13 +15,15 @@ const SetPasswordGoogle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const backendURL = import.meta.env.VITE_API_BASE_URL;
+
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match");
       return;
     }
 
     try {
-      const res = await axios.post("/auth/set-password-google", {
+      const res = await axios.post(`${backendURL}/auth/set-password-google`, {
         uniqueId: user?.uniqueId,
         password: password,
       });

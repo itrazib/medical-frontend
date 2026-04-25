@@ -4,7 +4,7 @@ import { Menu, UserIcon } from "lucide-react";
 import { roleMenus } from "../constants";
 import RoleMenu from "../components/RoleMenu";
 import axios from "axios";
-import logo from "../src/assets/mbstu_logo.png";
+import logo from "../assets/mbstu_logo.png";
 import useAuth from "../hooks/useAuth";
 
 const Header = () => {
@@ -53,7 +53,8 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("/auth/logout");
+      const backendURL = import.meta.env.VITE_API_BASE_URL;
+      await axios.get(`${backendURL}/auth/logout`);
       setUser(null);
       setIsProfileMenuOpen(false);
       setIsMobileMenuOpen(false);
